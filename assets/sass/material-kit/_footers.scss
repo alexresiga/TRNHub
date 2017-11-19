@@ -1,0 +1,38 @@
+footer{
+    padding: $padding-base 0;
+
+    ul{
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+
+        li{
+            padding-left: 49%!important;
+
+            a{
+                color: inherit;
+                padding: $padding-base;
+                font-weight: $font-weight-bold;
+                font-size: $mdb-btn-font-size-base;
+                text-transform: uppercase;
+                border-radius: $border-radius-base;
+                text-decoration: none;
+                position: relative;
+                display: block;
+
+                &:hover{
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
+    .copyright{
+        padding-left: 49%!important;
+        .material-icons{
+            font-size: 18px;
+            position: relative;
+            top: 3px;
+        }
+    }
+}

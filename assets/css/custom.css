@@ -1,0 +1,26 @@
+
+/*WIDE SCREEN SUPPORT*/
+@media screen and (min-width: 769px) { 
+    #background-div {
+        background-image: url('../img/bg01.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 0;
+        padding-top: 56.25%; /* (img-height / img-width * container-width) */
+                    /* (853 / 1280 * 100) */
+    }
+}
+
+/*MOBILE SUPPORT*/
+@media screen and (max-width: 768px) {
+    #background-div {
+        background-image: url('../img/bg01.jpg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 0;
+        padding-top: 56.25%; /* (img-height / img-width * container-width) */
+                    /* (853 / 1280 * 100) */
+    }
+}
