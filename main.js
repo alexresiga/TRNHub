@@ -137,7 +137,7 @@ function get_pois(station_code) {
             cardString += '<div class="card" style="width:100%!important;margin-left:0px!important;margin-right:0px!important;margin-bottom: 5px;"> <div class="content text-center"  ><div id="titleC" style="font-size: calc(0.7vw + 0.7vh + 1vmin);font-weight:bold">';
             cardString += json['resources'][i]['title'];
             cardString += '<hr style="width:100%"></div> <div id="imgC"><img src="'
-            cardString += json['resources'][i]['image'];
+            cardString += json['resources'][i]['image'] + '<br>';
             cardString += '" style="max-width:150px;max-height:150px;" alt=""></div><div id="contentC" style="text-align:left">';
             cardString += json['resources'][i]['content'];
             cardString += '</div><div class="content text-center" style="white-space:nowrap;padding:0!important"><div class="content text-center" id="location" style="display:inline-block; vertical-align:top;position:relative;"> <a href="https://www.google.co.uk/maps/@';
