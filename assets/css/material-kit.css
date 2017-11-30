@@ -2539,7 +2539,7 @@ legend {
   box-shadow: none;
 }
 .progress .progress-bar, .progress .progress-bar.progress-bar-default {
-  background-color: rgba(198,184,88, 1);
+  background-color: rgba(0,38,100, 1);
 }
 .progress .progress-bar.progress-bar-inverse {
   background-color: #3f51b5;
@@ -2560,7 +2560,7 @@ legend {
   background-color: #f44336;
 }
 .progress.progress-line-primary {
-  background: rgba(198,184,88, 0.6);
+  background: rgba(153,153,153, 1);
 }
 .progress.progress-line-info {
   background: rgba(3, 169, 244, 0.2);
