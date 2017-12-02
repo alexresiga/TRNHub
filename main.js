@@ -136,7 +136,7 @@ function get_pois(station_code) {
             //$('#mainzone').append('<div class="card" style="width:30%!important; height:300px; margin: 15px;"><div class="content text-center" style="overflow: auto; height:95%;"><div id="titleC">'+json['resources'][i]['title']+'</div><hr style="width:100%"><div id="contentC">'+json['resources'][i]['content']+'</div><div id="website"><a href="'+json['resources'][i]['website']+'" style="text-decoration:none!important" target="_blank"><i class="fa fa-ticket ticket fa-3x"></i><br>GET TICKET</a></div></div></div>');
 
             var cardString = "";
-            cardString += '<div class="card" style="width:100%!important;margin-left:0px!important;margin-right:0px!important;margin-bottom: 5px;"> <div class="content text-center"  ><div id="titleC" style="font-size: calc(0.7vw + 0.7vh + 1vmin);font-weight:bold">';
+            cardString += '<div class="card" style="width:100%!important;margin-left:0px!important;margin-right:0px!important;margin-bottom: 5px;"> <div class="content text-center"  ><div id="titleC" style="font-size:1.5em;font-weight:bold">';
             cardString += json['resources'][i]['title'];
             cardString += '<hr style="width:100%"></div> <div id="imgC"><img src="'
             cardString += json['resources'][i]['image'];
