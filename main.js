@@ -88,8 +88,8 @@ function get_route(client_id) {
             for(i=1;i<7;++i) {
                 if (next_station_code===json['route'][i-1]['station_code'])
                     station_index = i-1;
-                $('#station'+i).attr('tooltip', json['route'][i-1]['station_name']+'\u000aArrival Time: '+json['route'][i-1]['scheduled_arrival_time'] +'\u000aDeparture Time: '+json['route'][i-1]['scheduled_departure_time']);
-                $('#station'+i).attr('name', json['route'][i-1]['station_code']);
+                // $('#station'+i).attr('tooltip', json['route'][i-1]['station_name']+'\u000aArrival Time: '+json['route'][i-1]['scheduled_arrival_time'] +'\u000aDeparture Time: '+json['route'][i-1]['scheduled_departure_time']);
+                // $('#station'+i).attr('name', json['route'][i-1]['station_code']);
             }
 
             for(var i=0;i<station_index;++i) {
