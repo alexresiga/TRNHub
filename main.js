@@ -7,9 +7,9 @@ function mark_stations(client_id) {
         $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
             for (var i = 0; i < json['route'].length; ++i) {
                 if (i===0)
-                    $('#container').append('<button first_element="da" onclick="get_pois(this)" id="' + "station"+(i+1) + '" type="button"><img class="dot" src="logo.png"></button>\n');
+                    $('#container').append('<button id="' + "station"+(i+1) + '" type="button"><img class="dot" src="logo.png"></button>\n');
                 else
-                    $('#container').append('<button onclick="get_pois(this)" id="' + "station"+(i+1) + '" type="button"><img class="dot" src="logo.png"></button>\n');
+                    $('#container').append('<button id="' + "station"+(i+1) + '" type="button"><img class="dot" src="logo.png"></button>\n');
 
                 var latt = parseFloat(json['route'][i]['latitude']);
                 var longg = parseFloat(json['route'][i]['longitude']);
@@ -84,8 +84,6 @@ function get_route(client_id) {
             for(i=0;i<json['route'].length;++i) {
                 if (next_station_code===json['route'][i]['station_code'])
                     station_index = i;
-                // $('#station'+i).attr('tooltip', json['route'][i-1]['station_name']+'\u000aArrival Time: '+json['route'][i-1]['scheduled_arrival_time'] +'\u000aDeparture Time: '+json['route'][i-1]['scheduled_departure_time']);
-                // $('#station'+i).attr('name', json['route'][i-1]['station_code']);
             }
 
             if(next_station_code === '')
@@ -153,16 +151,6 @@ function get_pois(station_code) {
             cardString += '" style="text-decoration:none!important" target=_blank> <i class="fa fa-ticket ticket fa-3x"></i> <br> GET TICKETS <br>'
             cardString += '£' + json['resources'][i]['ticket_summary'];
             cardString += ' </a></div></div></div></div>';
-
-
-
-            //cardString += '<div class="card" style="width:32%!important; height:400px; margin: 5px;"> <div class="content text-center" style="height:300px" ><div id="titleC" style="font-size:0.7vw;font-weight:bold">';
-            //cardString += json['resources'][i]['title'];
-           // cardString += '<hr style="width:100%"></div> <div id="contentC" style="overflow: auto!important; height:95%;position:relative">';
-          //  cardString += json['resources'][i]['content'];
-          //  cardString += '</div><div id="website"> <a href="';
-          //  cardString += json['resources'][i]['website'];
-           // cardString += '" style="text-decoration:none!important" target=_blank> <i class="fa fa-ticket ticket fa-3x"></i> <br> GET TICKET</a></div></div></div>';
 
             $('#mainzone').append(cardString);
         }
