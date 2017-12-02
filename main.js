@@ -32,11 +32,13 @@ function mark_stations(client_id) {
                     position: {lat: latt, lng: longg},
                     map: map,
                     icon: icon,
-                    title: json['route'][i]['station_code']
+                    title: json['route'][i]['station_name']
                 });
 
+                marker.station_code = json['route'][i]['station_code'];
+
                 marker.addListener('click', function () {
-                    get_pois(this.title);
+                    get_pois(this.station_code);
                 });
 
                 marker.addListener('click', function () {
