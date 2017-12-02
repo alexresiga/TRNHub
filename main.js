@@ -1,12 +1,6 @@
 var location_marker;
 var info_window;
 
-function get_train_details(train_id, func) {
-    $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (data) {
-        func(data);
-    });
-}
-
 function mark_stations(client_id) {
     $.getJSON('https://wittos.azure-api.net/projectswift/Client/'+client_id+'?subscription-key=d6dc566f2a46403b864c10236aece6b8', function(json) {
        var train_id = json['train_id'] ;
@@ -60,10 +54,10 @@ function mark_stations(client_id) {
 function get_route(client_id) {
     $.getJSON('https://wittos.azure-api.net/projectswift/Client/'+client_id+'?subscription-key=d6dc566f2a46403b864c10236aece6b8', function(json) {
         var next_station_code = json['next_station_code'];
+        get_pois(next_station_code);
         var train_id = json['train_id'];
 
         $.getJSON('https://wittos.azure-api.net/projectswift/train/'+train_id+'?subscription-key=d6dc566f2a46403b864c10236aece6b8', function(json) {
-            console.log(json);
             var lat = parseFloat(json['latitude']);
             var long = parseFloat(json['longitude']);
 
@@ -129,7 +123,6 @@ function get_route(client_id) {
 
 
 function get_pois(station_code) {
-    console.log(station_code);
     $.getJSON('https://wittos.azure-api.net/projectswift/poi/'+station_code+'?subscription-key=d6dc566f2a46403b864c10236aece6b8', function(json) {
         $('#mainzone').empty();
         for(var i=0;i<json['resources'].length;++i) {
@@ -184,7 +177,6 @@ function parseQueryString(url) {
 $(document).ready(function () {
     var url = location.search;
     var params = parseQueryString(url);
-    console.log(params['client_id']);
 
     mark_stations(params['client_id']);
     get_route(params['client_id']);
