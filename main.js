@@ -81,17 +81,24 @@ function get_route(client_id) {
             map.panTo(location_marker.getPosition());
 
             var station_index = 0;
-            for(i=1;i<7;++i) {
-                if (next_station_code===json['route'][i-1]['station_code'])
-                    station_index = i-1;
+            for(i=0;i<json['route'].length;++i) {
+                if (next_station_code===json['route'][i]['station_code'])
+                    station_index = i;
                 // $('#station'+i).attr('tooltip', json['route'][i-1]['station_name']+'\u000aArrival Time: '+json['route'][i-1]['scheduled_arrival_time'] +'\u000aDeparture Time: '+json['route'][i-1]['scheduled_departure_time']);
                 // $('#station'+i).attr('name', json['route'][i-1]['station_code']);
             }
 
-            for(var i=0;i<station_index;++i) {
-                $('#station'+(i+1)).attr('style', 'opacity: 0.65');
+            if(next_station_code === '')
+            {
+                for(var i=0;i<json['route'].length;++i) {
+                    $('#station' + (i + 1)).attr('style', 'opacity: 0.65');
+                }
+                return;
             }
 
+            for(i=0;i<station_index;++i) {
+                $('#station'+(i+1)).attr('style', 'opacity: 0.65');
+            }
 
             var last_departure = json['route'][station_index-1]['scheduled_departure_time'];
             var departure_hours = parseInt(last_departure.slice(0, 2));
