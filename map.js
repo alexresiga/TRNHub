@@ -88,7 +88,8 @@ function initMap() {
         });
         directionsService = new google.maps.DirectionsService,
         directionsDisplay = new google.maps.DirectionsRenderer({
-            map: map
+            map: map,
+            suppressMarkers: true
         }),
         // get route from A to B
     calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
