@@ -40,7 +40,7 @@ function mark_stations(client_id) {
                         info_window.close();
 
                     info_window = new google.maps.InfoWindow({
-                        content: this.title
+                        content: this.title +"\nSelect station for event listing"
                     });
 
                     info_window.open(map, this);
@@ -105,7 +105,7 @@ function get_pois(station_code) {
             cardString += json['resources'][i]['performance_time'];
             cardString += '</div><div class="content text-center" id="website" style="display:inline-block; vertical-align:top;position:relative;"> <a href="';
             cardString += json['resources'][i]['website'];
-            cardString += '" style="text-decoration:none!important" target=_blank> <i class="fa fa-ticket ticket fa-3x"></i> <br> GET TICKETS <br>'
+            cardString += '" style="text-decoration:none!important" target=_blank> <i class="fa fa-ticket ticket fa-3x"></i> <br> BUY TICKETS <br>'
             cardString += '£' + json['resources'][i]['ticket_summary'];
             cardString += ' </a></div></div></div></div>';
 
