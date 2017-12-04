@@ -40,7 +40,7 @@ function mark_stations(client_id) {
                         info_window.close();
 
                     info_window = new google.maps.InfoWindow({
-                        content: this.title +"<br><p>Select station for event listing</p>"
+                        content: "<p>"+this.title+"</p>" +"<br><p>Select station for event listing</p>"
                     });
 
                     info_window.open(map, this);
