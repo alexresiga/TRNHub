@@ -76,7 +76,7 @@ function get_route(client_id) {
                 fillColor: '#57c264',
                 fillOpacity: 1,
                 strokeWeight: 0,
-                scale: 0.55
+                scale: 0.45
             }
 
             location_marker = new google.maps.Marker({
