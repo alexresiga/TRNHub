@@ -79,49 +79,6 @@ function get_route(client_id) {
             });
 
             map.panTo(location_marker.getPosition());
-
-            var station_index = 0;
-            for(i=0;i<json['route'].length;++i) {
-                if (next_station_code===json['route'][i]['station_code'])
-                    station_index = i;
-            }
-
-            if(next_station_code === '')
-            {
-                for(var i=0;i<json['route'].length;++i) {
-                    $('#station' + (i + 1)).attr('style', 'opacity: 0.65');
-                }
-                return;
-            }
-
-            for(i=0;i<station_index;++i) {
-                $('#station'+(i+1)).attr('style', 'opacity: 0.65');
-            }
-
-            var last_departure = json['route'][station_index-1]['scheduled_departure_time'];
-            var departure_hours = parseInt(last_departure.slice(0, 2));
-            var departure_minutes = parseInt(last_departure.slice(3, 5));
-            var departure_seconds = parseInt(last_departure.slice(6, 8));
-
-
-            var d = new Date();
-            var hours = (((d.getHours()-2)%24)+24)%24;
-            var minutes = d.getMinutes();
-            var seconds = d.getSeconds();
-
-
-            var time_since_departure = (hours*3600+minutes*60+seconds) - (departure_hours*3600+departure_minutes*60+departure_seconds);
-
-            var next_arrival = json['route'][station_index]['scheduled_arrival_time'];
-            var arrival_hours = parseInt(next_arrival.slice(0, 2));
-            var arrival_minutes = parseInt(next_arrival.slice(3, 5));
-            var arrival_seconds = parseInt(next_arrival.slice(6, 8));
-            var time_between_stations = (arrival_hours*3600+arrival_minutes*60+arrival_seconds) - (departure_hours*3600+departure_minutes*60+departure_seconds);
-
-            var pval = (100/5*(station_index-1));
-            pval = Math.max(pval, pval + (time_since_departure/time_between_stations/5)*100);
-
-            $('#pbar').attr('style', 'width: ' + pval + '%');
         });
     });
 }
