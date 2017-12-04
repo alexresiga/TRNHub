@@ -14,26 +14,18 @@ function mark_stations(client_id) {
                 var latt = parseFloat(json['route'][i]['latitude']);
                 var longg = parseFloat(json['route'][i]['longitude']);
 
-                var imagine ={
+                var icon ={
                     path: "M27.648-41.399q0-3.816-2.7-6.516t-6.516-2.7-6.516 2.7-2.7 6.516 2.7 6.516 6.516 2.7 6.516-2.7 2.7-6.516zm9.216 0q0 3.924-1.188 6.444l-13.104 27.864q-.576 1.188-1.71 1.872t-2.43.684-2.43-.684-1.674-1.872l-13.14-27.864q-1.188-2.52-1.188-6.444 0-7.632 5.4-13.032t13.032-5.4 13.032 5",
                     fillColor: '#217ED7',
                     fillOpacity: 1,
                     strokeWeight: 0,
-                    scaledSize: new google.maps.Size(32, 32),
-                    origin: new google.maps.Point(0,0),
-                    anchor: new google.maps.Point(0, 0)
-                }
-                var icon = {
-                    url: "logo.png",
-                    scaledSize: new google.maps.Size(32, 32),
-                    origin: new google.maps.Point(0,0),
-                    anchor: new google.maps.Point(0, 0)
+                    scale: 0.55,
                 };
 
                 var marker = new google.maps.Marker({
                     position: {lat: latt, lng: longg},
                     map: map,
-                    icon: imagine,
+                    icon: icon,
                     title: json['route'][i]['station_name']
                 });
 
@@ -78,11 +70,19 @@ function get_route(client_id) {
                 origin: new google.maps.Point(0,0),
                 anchor: new google.maps.Point(0, 0)
             };
+            
+            var train = {
+                path: "M39.168-64.439q6.66 0 11.394 3.366t4.734 8.154v32.256q0 4.68-4.518 7.992t-10.998 3.492l7.668 7.272q.576.54.288 1.26t-1.08.72h-38.016q-.792 0-1.08-.72t.288-1.26l7.668-7.272q-6.48-.18-10.998-3.492t-4.518-7.992v-32.256q0-4.788 4.734-8.154t11.394-3.366h23.04zm-11.52 48.384q2.88 0 4.896-2.016t2.016-4.896-2.016-4.896-4.896-2.016-4.896 2.016-2.016 4.896 2.016 4.896 4.896 2.016zm20.736-20.736v-18.432h-41.472v18.432h41.472z",
+                fillColor: '#57c264',
+                fillOpacity: 1,
+                strokeWeight: 0,
+                scale: 0.55
+            }
 
             location_marker = new google.maps.Marker({
                 position: {lat: lat, lng: long},
                 map: map,
-                icon: icon,
+                icon: train,
                 zIndex: 99999999
             });
 
@@ -108,7 +108,7 @@ function get_pois(station_code) {
             cardString += '</div><div class="content text-center" style="white-space:nowrap;padding:0!important"><div class="content text-center" id="location" style="display:inline-block; vertical-align:top;position:relative;"> <a href="https://www.google.co.uk/maps/@';
             cardString += json['resources'][i]['latitude']+',';
             cardString += json['resources'][i]['longitude']+',15z';
-            cardString += '" target="_blank" style="text-decoration: none"><i class="fa fa-map-marker map-marker fa-3x"></i> <br>LOCATION <br> </a> </div> <div class="content text-center" id="calendar" style="display:inline-block; vertical-align:top;position:relative;"><i class="fa fa-calendar calendar fa-3x"></i> <br> DATE & TIME<br>';
+            cardString += '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow fa-3x"></i> <br>LOCATION <br> </a> </div> <div class="content text-center" id="calendar" style="display:inline-block; vertical-align:top;position:relative;"><i class="fa fa-calendar calendar fa-3x"></i> <br> DATE & TIME<br>';
             cardString += json['resources'][i]['performance_date'] + '<br>';
             cardString += json['resources'][i]['performance_time'];
             cardString += '</div><div class="content text-center" id="website" style="display:inline-block; vertical-align:top;position:relative;"> <a href="';
