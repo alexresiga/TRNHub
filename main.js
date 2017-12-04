@@ -75,7 +75,7 @@ function get_route(client_id) {
                 position: {lat: lat, lng: long},
                 map: map,
                 icon: icon,
-                zIndex:-99999999
+                zIndex: 99999999
             });
 
             map.panTo(location_marker.getPosition());
