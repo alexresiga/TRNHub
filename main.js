@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 var location_marker;
 var info_window;
 
