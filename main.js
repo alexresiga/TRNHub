@@ -19,7 +19,6 @@ function mark_stations(client_id) {
                     fillColor: '#217ED7',
                     fillOpacity: 1,
                     strokeWeight: 0,
-                    scale: 0.65,
                     scaledSize: new google.maps.Size(32, 32),
                     origin: new google.maps.Point(0,0),
                     anchor: new google.maps.Point(0, 0)
