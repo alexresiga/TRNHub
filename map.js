@@ -98,11 +98,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, stations
 
     directionsDisplay = new google.maps.DirectionsRenderer({
         map: map,
-        suppressMarkers: true
+        suppressMarkers: true,
+        polylineOptions: {strokeColor: '#20395F'}
     });
 
     directionsService.route({
-        origin: {lat: parseFloat(stations[i]['latitude']), lng: parseFloat(stations[i]['longitude'])},
+        origin: {lat: parseFloat(stations[0]['latitude']), lng: parseFloat(stations[0]['longitude'])},
         destination: {
             lat: parseFloat(stations[stations.length - 1]['latitude']),
             lng: parseFloat(stations[stations.length - 1]['longitude'])
