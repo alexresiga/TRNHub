@@ -1,11 +1,12 @@
+var directionsService;
+var directionsDisplay;
+
 function initMap() {
-        var uluru = {lat: 55.894424, lng: -3.685716};
-        var pointA = {lat: 55.8622754, lng: -4.253283};
-        var pointB = {lat: 55.9519979, lng: -3.1921589};
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: uluru,
-          styles: [
+    var uluru = {lat: 55.894424, lng: -3.685716};
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: uluru,
+        styles: [
             {
                 "featureType": "administrative",
                 "elementType": "labels.text.fill",
@@ -85,27 +86,37 @@ function initMap() {
                 ]
             }
         ]
-        });
-        directionsService = new google.maps.DirectionsService,
-        directionsDisplay = new google.maps.DirectionsRenderer({
-            map: map,
-            suppressMarkers: true
-        }),
-        // get route from A to B
-    calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
-      }
+    });
 
-      function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
-        directionsService.route({
-            origin: pointA,
-            destination: pointB,
-            travelMode: google.maps.TravelMode.TRANSIT
-        }, function (response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setDirections(response);
-            } else {
-                window.alert('Directions request failed due to ' + status);
-            }
-        });
-    }
+    // get route from A to B
+    //calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay, stations) {
+    directionsService = new google.maps.DirectionsService;
+    directionsDisplay = [];
+
+    directionsDisplay = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: true
+    });
+
+    directionsService.route({
+        origin: {lat: parseFloat(stations[i]['latitude']), lng: parseFloat(stations[i]['longitude'])},
+        destination: {
+            lat: parseFloat(stations[stations.length - 1]['latitude']),
+            lng: parseFloat(stations[stations.length - 1]['longitude'])
+        },
+        travelMode: google.maps.TravelMode.TRANSIT,
+        transitOptions: {
+            modes: ['RAIL']
+        }
+    }, function (response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
+}
     
