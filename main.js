@@ -43,7 +43,7 @@ function mark_stations(client_id) {
                         info_window.close();
 
                     info_window = new google.maps.InfoWindow({
-                        content: "<div style='text-align:center'><p>" + this.title + "<br>Select station for event listing</p></div>"
+                        content: this.title
                     });
 
                     info_window.open(map, this);
