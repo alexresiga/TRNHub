@@ -102,7 +102,7 @@ function get_route(client_id) {
 function get_pois(station_code) {
     $.getJSON('https://wittos.azure-api.net/projectswift/poi/' + station_code + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
         $('#mainzone').empty();
-        var pois = []
+        var pois = [];
         for (var i = 0; i < json['resources'].length; ++i)
             pois.push(json['resources'][i]);
 
@@ -148,15 +148,15 @@ function compare_event_times(event1, event2) {
                 var h1 = parseInt(time1.slice(0, 2)), h2 = parseInt(time2.slice(0, 2))
                 if (h1 === h2) {
                     var m1 = parseInt(time1.slice(3, 5)), m2 = parseInt(time2.slice(3, 5));
-                    return (m1 < m2 ? -1 : 1);
+                    return (m1 < m2 ? 1 : -1);
                 }
-                else return (h1 < h2 ? -1 : 1);
+                else return (h1 < h2 ? 1 : -1);
             }
-            else return (d1 < d2 ? -1 : 1);
+            else return (d1 < d2 ? 1 : -1);
         }
-        else return (mo1 < mo2 ? -1 : 1);
+        else return (mo1 < mo2 ? 1 : -1);
     }
-    else return (y1 < y2 ? -1 : 1);
+    else return (y1 < y2 ? 1 : -1);
 }
 
 function parseQueryString(url) {
