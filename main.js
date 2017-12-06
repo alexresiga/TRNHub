@@ -106,24 +106,30 @@ function get_pois(station_code) {
             //$('#mainzone').append('<div class="card" style="width:30%!important; height:300px; margin: 15px;"><div class="content text-center" style="overflow: auto; height:95%;"><div id="titleC">'+json['resources'][i]['title']+'</div><hr style="width:100%"><div id="contentC">'+json['resources'][i]['content']+'</div><div id="website"><a href="'+json['resources'][i]['website']+'" style="text-decoration:none!important" target="_blank"><i class="fa fa-ticket ticket fa-3x"></i><br>GET TICKET</a></div></div></div>');
 
             var cardString = "";
-            cardString += '<div class="card" style="width:100%!important;margin-left:0px!important;margin-right:0px!important;margin-bottom: 5px;"> <div class="content text-center"  ><div id="titleC" style="font-size:1.5em;font-weight:bold">';
+            cardString += '<div class="card" style="width:100%!important;margin-left:0px!important;margin-right:0px!important;margin-bottom: 5px;">';
+            cardString += '<div class="content text-center" style="padding:2px!important">';
+            cardString += '<div id="titleC" style="font-size:1.3em;font-weight:bold;vertical-align:centre;">';
             cardString += json['resources'][i]['title'];
-            cardString += '<hr style="width:100%"></div> <div id="imgC"><img src="';
+            cardString += '<hr style="width:100%"></div>';
+            cardString += '<div class="content text-center" style="white-space:nowrap;padding:0!important">';
+            cardString += '<div class="content text-center "id="imgC" style="display:inline-block; vertical-align:top;position:relative;padding:0!important;margin-right:2px"><img src="';
             cardString += json['resources'][i]['image'];
-            cardString += '" style="max-width:150px;max-height:150px;" alt=""></div><br><div id="contentC" style="text-align:left">';
-            cardString += json['resources'][i]['content'];
-            cardString += '</div><div class="content text-center" style="white-space:nowrap;padding:0!important"><div class="content text-center" id="location" style="display:inline-block; vertical-align:top;position:relative;"> <a href="https://www.google.co.uk/maps/@';
-            cardString += json['resources'][i]['latitude'] + ',';
-            cardString += json['resources'][i]['longitude'] + ',15z';
-            cardString += '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow fa-3x"></i> <br>LOCATION <br> </a> </div> <div class="content text-center" id="calendar" style="display:inline-block; vertical-align:top;position:relative;"><i class="fa fa-calendar calendar fa-3x"></i> <br> DATE & TIME<br>';
-            cardString += json['resources'][i]['performance_date'] + '<br>';
-            cardString += json['resources'][i]['performance_time'];
-            cardString += '</div><div class="content text-center" id="website" style="display:inline-block; vertical-align:top;position:relative;"> <a href="';
+            cardString += '" style="max-width:100px;max-height:130px;" alt=""></div>';
+            cardString += '<div class="content text-center"style="text-align:left;display:inline-block;vertical-align:top;position:relative;padding:0!important;font-size:0.8em;"><i class="fa fa-calendar calendar"></i>  Date & Time:';
+            cardString += json['resources'][i]['performance_date'] + '-' + json['resources'][i]['performance_time'];
+            cardString += '<br><a href="https://www.google.co.uk/maps/@'
+            cardString += json['resources'][i]['latitude'] + ',' + json['resources'][i]['longitude'] + ',15z';
+            cardString += '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow"></i>  Location: VENUE NAME</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:';
+            cardString += station_code;
+            cardString += '<br><div id="special_offer" style="color:red"><i class="fa fa-map-marker map-marker" style="color:white"></i>  SPECIAL OFFER</div></div></div>';
+            cardString += '<div class="content text-center" id="website" style="margin-left:5px;margin-right:5px;background-color:#217ED7;border-radius:15px"><a href="'
             cardString += json['resources'][i]['website'];
-            cardString += '" style="text-decoration:none!important" target=_blank> <i class="fa fa-ticket ticket fa-3x"></i> <br> BUY TICKETS <br>'
-            cardString += '£' + json['resources'][i]['ticket_summary'];
-            cardString += ' </a></div></div></div></div>';
-
+            cardString += '" style="text-decoration:none!important;color:white" target="_blank"> <i class="fa fa-ticket ticket fa-1x" style="color:white"></i> BUY TICKETS ';
+            cardString +=  '£' + json['resources'][i]['ticket_summary'];
+            cardString += '</a></div><div id="contentC" style="text-align:left; margin-left:5px">';
+            cardString += json['resources'][i]['content'];
+            cardString +='</div></div></div>';
+            
             $('#mainzone').append(cardString);
         }
     });
