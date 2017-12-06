@@ -102,7 +102,13 @@ function get_route(client_id) {
 function get_pois(station_code) {
     $.getJSON('https://wittos.azure-api.net/projectswift/poi/' + station_code + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
         $('#mainzone').empty();
-        for (var i = 0; i < json['resources'].length; ++i) {
+        var pois = [];
+        for (var i = 0; i < json['resources'].length; ++i)
+            pois.push(json['resources'][i]);
+
+        pois.sort(compare_event_times);
+
+        for (i = 0; i < pois.length; ++i) {
             //$('#mainzone').append('<div class="card" style="width:30%!important; height:300px; margin: 15px;"><div class="content text-center" style="overflow: auto; height:95%;"><div id="titleC">'+json['resources'][i]['title']+'</div><hr style="width:100%"><div id="contentC">'+json['resources'][i]['content']+'</div><div id="website"><a href="'+json['resources'][i]['website']+'" style="text-decoration:none!important" target="_blank"><i class="fa fa-ticket ticket fa-3x"></i><br>GET TICKET</a></div></div></div>');
 
             var cardString = "";
@@ -133,6 +139,30 @@ function get_pois(station_code) {
             $('#mainzone').append(cardString);
         }
     });
+}
+
+function compare_event_times(event1, event2) {
+    var date1 = event1['performance_date'], date2 = event2['performance_date'];
+    var time1 = event1['performance_time'], time2 = event2['performance_time'];
+
+    var y1 = parseInt(date1.slice(0, 4)), y2 = parseInt(date2.slice(0, 4));
+    if (y1 === y2) {
+        var mo1 = parseInt(date1.slice(5, 7)), mo2 = parseInt(date2.slice(5, 7));
+        if (mo1 === mo2) {
+            var d1 = parseInt(date1.slice(8, 10)), d2 = parseInt(date2.slice(8, 10));
+            if (d1 === d2) {
+                var h1 = parseInt(time1.slice(0, 2)), h2 = parseInt(time2.slice(0, 2))
+                if (h1 === h2) {
+                    var m1 = parseInt(time1.slice(3, 5)), m2 = parseInt(time2.slice(3, 5));
+                    return (m1 < m2 ? 1 : -1);
+                }
+                else return (h1 < h2 ? 1 : -1);
+            }
+            else return (d1 < d2 ? 1 : -1);
+        }
+        else return (mo1 < mo2 ? 1 : -1);
+    }
+    else return (y1 < y2 ? 1 : -1);
 }
 
 function parseQueryString(url) {
