@@ -119,7 +119,7 @@ function get_pois(station_code) {
             cardString += json['resources'][i]['performance_date'] + '-' + json['resources'][i]['performance_time'];
             cardString += '<br><a href="https://www.google.co.uk/maps/@'
             cardString += json['resources'][i]['latitude'] + ',' + json['resources'][i]['longitude'] + ',15z';
-            cardString += '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow"></i>  Location: VENUE NAME</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:';
+            cardString += '" target="_blank" style="text-decoration: none;color:black"><i class="fa fa-location-arrow location-arrow"></i>  Location: VENUE NAME</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:';
             cardString += station_code;
             cardString += '<br><div id="special_offer" style="color:red"><i class="fa fa-map-marker map-marker" style="color:white"></i>  SPECIAL OFFER</div></div></div>';
             cardString += '<div class="content text-center" id="website" style="margin-left:5px;margin-right:5px;background-color:#217ED7;border-radius:15px"><a href="'
