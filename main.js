@@ -172,5 +172,5 @@ $(document).ready(function () {
 
     setInterval(function () {
         get_route(params['client_id']);
-    }, 30000);
+    }, 60000);
 });
