@@ -2,9 +2,9 @@ var location_marker;
 var info_window;
 
 function mark_stations(client_id) {
-    $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
+    $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         var train_id = json['train_id'];
-        $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
+        $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
             var stations = [];
             for (var i = 0; i < json['route'].length; ++i) {
                 stations.push(json['route'][i]);
@@ -57,12 +57,12 @@ function mark_stations(client_id) {
 }
 
 function get_route(client_id) {
-    $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
+    $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         var next_station_code = json['next_station_code'];
         get_pois(next_station_code);
         var train_id = json['train_id'];
 
-        $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
+        $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
             var lat = parseFloat(json['latitude']);
             var long = parseFloat(json['longitude']);
 
@@ -100,7 +100,7 @@ function get_route(client_id) {
 
 
 function get_pois(station_code) {
-    $.getJSON('https://wittos.azure-api.net/projectswift/poi/' + station_code + '?subscription-key=d6dc566f2a46403b864c10236aece6b8', function (json) {
+    $.getJSON('https://wittos.azure-api.net/projectswift/poi/' + station_code + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         $('#mainzone').empty();
         var pois = [];
         for (var i = 0; i < json['resources'].length; ++i)
@@ -109,34 +109,19 @@ function get_pois(station_code) {
         pois.sort(compare_event_times);
 
         for (i = 0; i < pois.length; ++i) {
-            //$('#mainzone').append('<div class="card" style="width:30%!important; height:300px; margin: 15px;"><div class="content text-center" style="overflow: auto; height:95%;"><div id="titleC">'+json['resources'][i]['title']+'</div><hr style="width:100%"><div id="contentC">'+json['resources'][i]['content']+'</div><div id="website"><a href="'+json['resources'][i]['website']+'" style="text-decoration:none!important" target="_blank"><i class="fa fa-ticket ticket fa-3x"></i><br>GET TICKET</a></div></div></div>');
+            //$('#mainzone').append('<div class="card" style="width:30%!important; height:300px; margin: 15px;"><div class="content text-center" style="overflow: auto; height:95%;"><div id="titleC">'+pois[i]['title']+'</div><hr style="width:100%"><div id="contentC">'+pois[i]['content']+'</div><div id="website"><a href="'+pois[i]['website']+'" style="text-decoration:none!important" target="_blank"><i class="fa fa-ticket ticket fa-3x"></i><br>GET TICKET</a></div></div></div>');
 
-            var cardString = "";
-            cardString += '<div class="card" style="width:100%!important;margin-left:0px!important;margin-right:0px!important;margin-bottom: 5px;">';
-            cardString += '<div class="content text-center" style="padding:2px!important">';
-            cardString += '<div id="titleC" style="font-size:1.3em;font-weight:bold;vertical-align:centre;">';
-            cardString += json['resources'][i]['title'];
-            cardString += '<hr style="width:100%"></div>';
-            cardString += '<div class="content text-center" style="white-space:nowrap;padding:0!important">';
-            cardString += '<div class="content text-center "id="imgC" style="display:inline-block; vertical-align:top;position:relative;padding:0!important;margin-right:2px"><img src="';
-            cardString += json['resources'][i]['image'];
-            cardString += '" style="max-width:100px;max-height:130px;" alt=""></div>';
-            cardString += '<div class="content text-center"style="text-align:left;display:inline-block;vertical-align:top;position:relative;padding:0!important;font-size:0.8em;"><i class="fa fa-calendar calendar"></i>  Date & Time:';
-            cardString += json['resources'][i]['performance_date'] + '-' + json['resources'][i]['performance_time'];
-            cardString += '<br><a href="https://www.google.co.uk/maps/@'
-            cardString += json['resources'][i]['latitude'] + ',' + json['resources'][i]['longitude'] + ',15z';
-            cardString += '" target="_blank" style="text-decoration: none;color:black"><i class="fa fa-location-arrow location-arrow"></i>  Location: VENUE NAME</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:';
-            cardString += station_code;
-            cardString += '<br><div id="special_offer" style="color:red"><i class="fa fa-map-marker map-marker" style="color:white"></i>  SPECIAL OFFER</div></div></div>';
-            cardString += '<div class="content text-center" id="website" style="margin-left:5px;margin-right:5px;background-color:#217ED7;border-radius:15px"><a href="'
-            cardString += json['resources'][i]['website'];
-            cardString += '" style="text-decoration:none!important;color:white" target="_blank"> <i class="fa fa-ticket ticket fa-1x" style="color:white"></i> BUY TICKETS ';
-            cardString +=  '£' + json['resources'][i]['ticket_summary'];
-            cardString += '</a></div><div id="contentC" style="text-align:left; margin-left:5px">';
-            cardString += json['resources'][i]['content'];
-            cardString +='</div></div></div>';
-            
-            $('#mainzone').append(cardString);
+            var title = pois[i]['title'];
+            var content = pois[i]['content'];
+            var image = pois[i]['image'];
+            var datetime = pois[i]['performance_date'] + '/' + pois[i]['performance_time'];
+            var gmaps = 'http://maps.google.com/maps?q=loc:' + pois[i]['latitude'] + ',' + pois[i]['longitude'];
+            var venue = 'venue';
+            var station = station_code;
+            var price = pois[i]['ticket_summary'];
+            var website = ' websites';
+
+            $('#mainzone').append('<div class="text-center" style="background-color:#CCCCCC;width:100%!important;margin-bottom:5px">                    <div class="card" style="max-width:500px;padding:5px;">                        <div class="content text-center" style="padding:5px!important">                            <div id="titleC" style="font-size:1.3em;font-weight:bold;vertical-align:middle">' + title + '</div>                            <div class="content" style="white-space:nowrap;padding:0!important;text-align:left;margin:5px">                                <div class="content text-center " id="imgC" style="display:inline-block; vertical-align:top;position:relative;padding:0!important"><img src="' + image + '" style="max-width:100px;max-height:130px;" alt=""></div>                                <div class="content text-center" style="font-size:0.68em!important;text-align:left;display:inline-block;vertical-align:top;position:relative;padding:0!important;font-size:0.8em;"><i class="fa fa-calendar calendar"></i>  Date &amp; Time: ' + datetime + '<br><a href="' + gmaps + '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow"></i>  Location: ' + venue + '</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:' + station + '<br><div id="special_offer" style="color:red"><i class="fa fa-map-marker map-marker" style="color:white"></i>  SPECIAL OFFER</div></div>                            </div>                            <a href="' + website + '" style="text-decoration:none!important;color:black" target="_blank"><div class="btn-warning content text-center" id="website" style="margin-left:5px;margin-right:5px;"><i id="ticket" class="fa fa-ticket ticket fa-1x" style="color:black;"></i> BUY TICKETS £' + price + '</div></a>                            <div id="contentC" style="text-align:left; margin-left:5px"> ' + content + ' </div>                    </div>            </div></div>');
         }
     });
 }
@@ -151,18 +136,18 @@ function compare_event_times(event1, event2) {
         if (mo1 === mo2) {
             var d1 = parseInt(date1.slice(8, 10)), d2 = parseInt(date2.slice(8, 10));
             if (d1 === d2) {
-                var h1 = parseInt(time1.slice(0, 2)), h2 = parseInt(time2.slice(0, 2))
+                var h1 = parseInt(time1.slice(0, 2)), h2 = parseInt(time2.slice(0, 2));
                 if (h1 === h2) {
                     var m1 = parseInt(time1.slice(3, 5)), m2 = parseInt(time2.slice(3, 5));
-                    return (m1 < m2 ? 1 : -1);
+                    return (m1 < m2 ? -1 : 1);
                 }
-                else return (h1 < h2 ? 1 : -1);
+                else return (h1 < h2 ? -1 : 1);
             }
-            else return (d1 < d2 ? 1 : -1);
+            else return (d1 < d2 ? -1 : 1);
         }
-        else return (mo1 < mo2 ? 1 : -1);
+        else return (mo1 < mo2 ? -1 : 1);
     }
-    else return (y1 < y2 ? 1 : -1);
+    else return (y1 < y2 ? -1 : 1);
 }
 
 function parseQueryString(url) {
@@ -183,6 +168,7 @@ $(document).ready(function () {
 
     mark_stations(params['client_id']);
     get_route(params['client_id']);
+
     setInterval(function () {
         get_route(params['client_id']);
     }, 30000);

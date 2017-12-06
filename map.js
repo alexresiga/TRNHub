@@ -119,5 +119,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, stations
             window.alert('Directions request failed due to ' + status);
         }
     });
+
+    map.setZoom(15);
 }
     
