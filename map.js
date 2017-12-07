@@ -41,7 +41,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, stations
     map.setZoom(15);
 }
 
-function calculate_route_new(directionsService, directionsDisplay, stations) {
+function calculate_route_new(directionsService, directionsDisplay, stations, train_position) {
     directionsService = new google.maps.DirectionsService;
 
     if (polyline !== undefined)
@@ -88,8 +88,9 @@ function calculate_route_new(directionsService, directionsDisplay, stations) {
             }
 
             polyline.setMap(map);
-            map.fitBounds(bounds);
-            map.setZoom(15);
+
+            map.setZoom(10);
+            map.setCenter(train_position);
         }
     });
 }

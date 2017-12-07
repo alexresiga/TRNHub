@@ -7,6 +7,7 @@ function mark_stations(client_id) {
     $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         var train_id = json['train_id'];
         $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
+            var train_position = {lat: parseFloat(json['latitude']), lng: parseFloat(json['longitude'])};
             var stations = [];
             for (var i = 0; i < json['route'].length; ++i) {
                 stations.push(json['route'][i]);
@@ -53,7 +54,21 @@ function mark_stations(client_id) {
             }
 
             $('#container').append('<span class="stretch"></span>');
-            calculate_route_new(directionsService, directionsDisplay, stations);
+            calculate_route_new(directionsService, directionsDisplay, stations, train_position);
+        });
+    });
+}
+
+function set_pois_next_station(client_id) {
+    $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
+        var next_station_code = json['next_station_code'];
+        var train_id = json['train_id'];
+
+        $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
+            for (var i = 0; i < json['route'].length; ++i) {
+                if (json['route'][i]['station_code'] === next_station_code)
+                    get_pois(json['route'][i]);
+            }
         });
     });
 }
@@ -64,10 +79,6 @@ function get_route(client_id) {
         var train_id = json['train_id'];
 
         $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
-            for (var i = 0; i < json['route'].length; ++i) {
-                if (json['route'][i]['station_code'] === next_station_code)
-                    get_pois(json['route'][i]);
-            }
 
             var lat = parseFloat(json['latitude']);
             var long = parseFloat(json['longitude']);
@@ -116,21 +127,20 @@ function get_pois(station_json) {
         pois.sort(compare_event_times);
 
         for (i = 0; i < pois.length; ++i) {
-            //$('#mainzone').append('<div class="card" style="width:30%!important; height:300px; margin: 15px;"><div class="content text-center" style="overflow: auto; height:95%;"><div id="titleC">'+pois[i]['title']+'</div><hr style="width:100%"><div id="contentC">'+pois[i]['content']+'</div><div id="website"><a href="'+pois[i]['website']+'" style="text-decoration:none!important" target="_blank"><i class="fa fa-ticket ticket fa-3x"></i><br>GET TICKET</a></div></div></div>');
 
-            var title = pois[i]['title'];
+            var title = '<b>' + pois[i]['title'] + '</b>';
             var content = pois[i]['content'];
             var image = pois[i]['image'];
             var datetime = pois[i]['performance_date'] + '/' + pois[i]['performance_time'];
             var gmaps = 'http://maps.google.com/maps?q=loc:' + pois[i]['latitude'] + ',' + pois[i]['longitude'];
-            var venue = pois[i]['performance_place'];
+            var venue = '<b>' + pois[i]['performance_place'] + '</b>';
             var station = station_json['station_name'];
             var price = pois[i]['ticket_summary'];
             var website = pois[i]['website'];
             var discount = pois[i]['discount'] !== '' ? '<div id="special_offer" style="color:red"><i class="fa fa-map-marker map-marker" style="color:white"></i>SPECIAL OFFER</div>' : '';
-            
 
-            $('#mainzone').append('<div class="text-center" style="background-color:rgb(241, 244, 245);width:100%!important;margin-top:10px">                    <div class="card" style="max-width:500px;padding:5px;">                        <div class="content text-center" style="padding:5px!important">                            <div id="titleC" style="font-size:1.3em;font-weight:bold;vertical-align:middle;text-align:left;margin-bottom:5px;">' + title + '</div>                            <div class="content" style="white-space:nowrap;padding:4px!important;text-align:left;">                                <div class="content text-center " id="imgC" style="display:inline-block; vertical-align:top;position:relative;padding:0!important;margin-right:3px;"><img src="' + image + '" style="max-width:100px;max-height:130px;" alt=""></div>                                <div class="content text-center" style="font-size:0.68em!important;text-align:left;display:inline-block;vertical-align:top;position:relative;padding:0!important;font-size:0.8em;"><i class="fa fa-calendar calendar"></i>  Date &amp; Time: ' + datetime + '<br><a href="' + gmaps + '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow"></i>  Location: ' + venue + '</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:' + station + '<br>'+discount+'</div>                            </div>                            <a href="' + website + '" style="text-decoration:none!important;color:black" target="_blank"><div class="btn btn-warning content text-center" id="website" style="margin:5px;color:white;padding-top:7px;padding-bottom:7px;"><i id="ticket" class="fa fa-ticket ticket" style="color:white;"></i> BUY TICKETS £' + price + '</div></a>                            <div id="contentC" style="text-align:left; margin-left:5px"> ' + content + ' </div>                    </div>            </div></div>');
+
+            $('#mainzone').append('<div class="text-center" style="background-color:rgb(241, 244, 245);width:100%!important;margin-top:10px">                    <div class="card" style="max-width:500px;padding:5px;">                        <div class="content text-center" style="padding:5px!important">                            <div id="titleC" style="font-size:1.3em;font-weight:bold;vertical-align:middle;text-align:left;margin-bottom:5px;">' + title + '</div>                            <div class="content" style="white-space:nowrap;padding:4px!important;text-align:left;">                                <div class="content text-center " id="imgC" style="display:inline-block; vertical-align:top;position:relative;padding:0!important;margin-right:3px;"><img src="' + image + '" style="max-width:100px;max-height:130px;" alt=""></div>                                <div class="content text-center" style="font-size:0.68em!important;text-align:left;display:inline-block;vertical-align:top;position:relative;padding:0!important;font-size:0.8em;"><i class="fa fa-calendar calendar"></i>  Date &amp; Time: ' + datetime + '<br><a href="' + gmaps + '" target="_blank" style="text-decoration: none"><i class="fa fa-location-arrow location-arrow"></i>  Location: ' + venue + '</a> <br><i class="fa fa-map-marker map-marker"></i>  Nearest station:' + station + '<br>' + discount + '</div>                            </div>                            <a href="' + website + '" style="text-decoration:none!important;color:black" target="_blank"><div class="btn btn-warning content text-center" id="website" style="margin:5px;color:white;padding-top:7px;padding-bottom:7px;"><i id="ticket" class="fa fa-ticket ticket" style="color:white;"></i> BUY TICKETS £' + price + '</div></a>                            <div id="contentC" style="text-align:left; margin-left:5px"> ' + content + ' </div>                    </div>            </div></div>');
         }
     });
 }
@@ -187,6 +197,7 @@ $(document).ready(function () {
 
     mark_stations(params['client_id']);
     get_route(params['client_id']);
+    set_pois_next_station(params['client_id']);
 
     setInterval(function () {
         get_route(params['client_id']);
