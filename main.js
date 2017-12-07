@@ -1,6 +1,8 @@
 var location_marker;
 var info_window;
 
+var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 function mark_stations(client_id) {
     $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         var train_id = json['train_id'];
@@ -32,10 +34,10 @@ function mark_stations(client_id) {
                     title: json['route'][i]['station_name']
                 });
 
-                marker.station_code = json['route'][i]['station_code'];
+                marker.station = json['route'][i];
 
                 marker.addListener('click', function () {
-                    get_pois(this.station_code);
+                    get_pois(this.station);
                 });
 
                 marker.addListener('click', function () {
@@ -50,8 +52,8 @@ function mark_stations(client_id) {
                 });
             }
 
-            $('#container').append('<span class="stretch"></span>')
-            calculateAndDisplayRoute(directionsService, directionsDisplay, stations);
+            $('#container').append('<span class="stretch"></span>');
+            calculate_route_new(directionsService, directionsDisplay, stations);
         });
     });
 }
@@ -59,10 +61,14 @@ function mark_stations(client_id) {
 function get_route(client_id) {
     $.getJSON('https://wittos.azure-api.net/projectswift/Client/' + client_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         var next_station_code = json['next_station_code'];
-        get_pois(next_station_code);
         var train_id = json['train_id'];
 
         $.getJSON('https://wittos.azure-api.net/projectswift/train/' + train_id + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
+            for (var i = 0; i < json['route'].length; ++i) {
+                if (json['route'][i]['station_code'] === next_station_code)
+                    get_pois(json['route'][i]);
+            }
+
             var lat = parseFloat(json['latitude']);
             var long = parseFloat(json['longitude']);
 
@@ -99,7 +105,8 @@ function get_route(client_id) {
 }
 
 
-function get_pois(station_code) {
+function get_pois(station_json) {
+    var station_code = station_json['station_code'];
     $.getJSON('https://wittos.azure-api.net/projectswift/poi/' + station_code + '?subscription-key=cad8f40544d94efea09bcd5a2237dbc5', function (json) {
         $('#mainzone').empty();
         var pois = [];
@@ -117,7 +124,7 @@ function get_pois(station_code) {
             var datetime = pois[i]['performance_date'] + '/' + pois[i]['performance_time'];
             var gmaps = 'http://maps.google.com/maps?q=loc:' + pois[i]['latitude'] + ',' + pois[i]['longitude'];
             var venue = pois[i]['performance_place'];
-            var station = station_code;
+            var station = station_json['station_name'];
             var price = pois[i]['ticket_summary'];
             var website = pois[i]['website'];
             var offer = pois[i]['discount'] !== '' ? 'SPECIAL OFFER' : '';
@@ -150,6 +157,16 @@ function compare_event_times(event1, event2) {
     }
     else return (y1 < y2 ? -1 : 1);
 }
+
+function get_short_date(date) {
+    var month = parseInt(date.slice(5, 7));
+    var day = parseInt(date.slice(8, 10));
+
+    var today = new Date();
+    var cur_month = today.getMonth(), cur_day = today.getDay();
+
+}
+
 
 function parseQueryString(url) {
     var urlParams = {};
