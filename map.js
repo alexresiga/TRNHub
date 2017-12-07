@@ -89,6 +89,7 @@ function calculate_route_new(directionsService, directionsDisplay, stations) {
 
             polyline.setMap(map);
             map.fitBounds(bounds);
+            map.setZoom(15);
         }
     });
 }
